@@ -1,5 +1,6 @@
 {
   "expo": {
+    "entryPoint": "expo-router/entry",
     "name": "pokenative",
     "slug": "pokenative",
     "version": "1.0.0",
@@ -12,6 +13,7 @@
       "supportsTablet": true
     },
     "android": {
+      
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
