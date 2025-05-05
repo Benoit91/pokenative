@@ -1,9 +1,12 @@
 import { Card } from '@/components/card';
 import { PokemonCard } from '@/components/pokemon/pokemonCard';
+import { Row } from '@/components/Row';
+import { SearchBar } from '@/components/SearchBar';
 import { getPokemonId } from '@/functions/pokemon';
 import { useInfiniteFetchQuery } from '@/hooks/useFetchQuery';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet } from 'react-native';
 import ThemedText from '../components/ThemedText';
 
 export default function Index() {
@@ -17,13 +20,17 @@ export default function Index() {
   } = useInfiniteFetchQuery('/pokemon?limit=21');
 
   const pokemons = data?.pages.flatMap((page: { results: any[] }) => page.results) ?? [];
+  const [search, setsearch] = useState('')
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.tint }]}>
-      <View style={styles.header}>
+      <Row style={styles.header} gap= {16}>
         <Image source={require("@/assets/images/pokeball.png")} width={24} height={24} />
         <ThemedText variant="headline" color="grayLigth">Pokédex</ThemedText>
-      </View>
+      </Row>
+      <Row>
+          <SearchBar value={search} onChange={setsearch}/>
+      </Row>
 
       <Card style={styles.body}>
         <FlatList
@@ -55,16 +62,16 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 4,
+    paddingTop: 24,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-    padding: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
   body: {
     flex: 1,
+    marginTop: 16,
   },
   gridGap: {
     gap: 8,
