@@ -14,5 +14,6 @@ export function Card({ style, ...rest }: Props) {
 
 const styles = {
     borderRadius: 8,
+    overflow: 'hidden',
     ...Shadows.dp2
 } satisfies ViewStyle // Permet de valider les propriétés CSS en cas d'erreur de synthaxe
