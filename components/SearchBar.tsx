@@ -26,13 +26,14 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         borderRadius: 16,
-        height: 32,
-        paddingHorizontal: 12
+        paddingHorizontal: 12,
+        height: 32
     },
     input: {
         flex: 1,
-        height: 16,
         fontSize: 10,
         lineHeight: 16,
+        color: "#212121",
+        paddingVertical: 4
     }
 })
