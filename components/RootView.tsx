@@ -5,7 +5,8 @@ type Props = ViewProps
 
 export function RootView({ style, ...rest }: Props) {
     const colors = useThemeColors()
-    return <SafeAreaView style={[RootStyle, { backgroundColor: colors.tint }]} {...rest} />
+    return <SafeAreaView style={[RootStyle, { backgroundColor: colors.tint }, style]}
+        {...rest} />
 }
 
 const RootStyle = {
