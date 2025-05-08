@@ -1,5 +1,6 @@
 import { Card } from '@/components/card';
 import { PokemonCard } from '@/components/pokemon/pokemonCard';
+import { RootView } from '@/components/RootView';
 import { Row } from '@/components/Row';
 import { SearchBar } from '@/components/SearchBar';
 import { SortButton } from '@/components/SortButton';
@@ -7,7 +8,7 @@ import { getPokemonId } from '@/functions/pokemon';
 import { useInfiniteFetchQuery } from '@/hooks/useFetchQuery';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useState } from 'react';
-import { ActivityIndicator, FlatList, Image, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, Image, Platform, StatusBar, StyleSheet } from 'react-native';
 import ThemedText from '../components/ThemedText';
 
 export default function Index() {
@@ -25,12 +26,12 @@ export default function Index() {
   const filteredPokemons = [...(search ? pokemons.filter(p => p.name.includes(search.toLowerCase()) || p.id.toString() === search) : pokemons)].sort((a,b) => (a[sortKey] < b[sortKey] ? -1 : 1));
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.tint }]}>
+    <RootView>
       <Row style={styles.header} gap= {16}>
-        <Image source={require("@/assets/images/pokeball.png")} width={24} height={24} />
+        <Image style={styles.image} source={require("@/assets/images/pokeball.png")} width={24} height={24}  />
         <ThemedText variant="headline" color="grayLigth">Pokédex</ThemedText>
       </Row>
-      <Row gap={16}>
+      <Row gap={16} style={styles.form}>
         <SearchBar value={search} onChange={setsearch} />
         <SortButton value={sortKey} onChange={setSortKey} />
       </Row>
@@ -58,19 +59,21 @@ export default function Index() {
           keyExtractor={(item) => item.id.toString()}
         />
       </Card>
-    </SafeAreaView>
+    </RootView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 4,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,  // affichage dynamique de la zone tampon 
   },
   header: {
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingBottom: 8,
+    padding: 24
+  },
+  image: {
+    marginTop: 12
   },
   body: {
     flex: 1,
@@ -82,4 +85,7 @@ const styles = StyleSheet.create({
   list: {
     padding: 12,
   },
+  form: {
+    paddingHorizontal: 12
+  }
 });
