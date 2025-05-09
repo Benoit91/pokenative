@@ -18,13 +18,14 @@ export default function Pokemon() {
   const params = useLocalSearchParams() as { id: string };
   const { data: pokemon } = useFetchQuery("/pokemon/[id]", { id: params.id });
   const { data: species } = useFetchQuery("/pokemon-species/[id]", { id: params.id });
-  const mainType = pokemon?.types?.[0].type.name
-  const colorType = mainType ? Colors.type[mainType] : colors.tint;
+  const mainType = pokemon?.types?.[0]?.type?.name?.toLowerCase();
+const colorType = mainType && Colors.type[mainType] ? Colors.type[mainType] : colors.tint;
+
   const types = pokemon?.types ?? [];
   const bio = species?.flavor_text_entries?.find(({ language }) => language.name === 'en')?.flavor_text.replaceAll("\n", " .");
 
   return (
-    <RootView style={{backgroundColor: colorType}}>
+    <RootView backgroundColor={colorType}>
         <Image style={styles.pokeball} source={require("@/assets/images/Pokeball_big.png")} width={208} height={208}/>
       <Row style={styles.header}>
         
