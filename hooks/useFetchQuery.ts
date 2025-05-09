@@ -72,6 +72,23 @@ export function useInfiniteFetchQuery<T extends keyof API>(path: T) {
   });
 }
 
+export function useSearchPokemon(query: string) {
+  return useQuery({
+    enabled: !!query,
+    queryKey: ["search", query.toLowerCase()],
+    queryFn: async () => {
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${query.toLowerCase()}`);
+      if (!res.ok) throw new Error("Not found");
+      const data = await res.json();
+      return {
+        id: data.id,
+        name: data.name
+      };
+    }
+  });
+}
+
+
 function wait (duration: number) {
     return new Promise(resolve =>setTimeout(resolve, duration *1000))
 }

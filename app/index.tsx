@@ -5,7 +5,7 @@ import { Row } from '@/components/Row';
 import { SearchBar } from '@/components/SearchBar';
 import { SortButton } from '@/components/SortButton';
 import { getPokemonId } from '@/functions/pokemon';
-import { useInfiniteFetchQuery } from '@/hooks/useFetchQuery';
+import { useInfiniteFetchQuery, useSearchPokemon } from '@/hooks/useFetchQuery';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Platform, StatusBar, StyleSheet } from 'react-native';
@@ -22,8 +22,12 @@ export default function Index() {
 
   const [search, setsearch] = useState('');
   const [sortKey, setSortKey] = useState<"id" | "name">('id')
-  const pokemons = data?.pages.flatMap((page: { results: any[] }) => page.results.map(r=> ({name: r.name, id: getPokemonId(r.url)}))) ?? [];
-  const filteredPokemons = [...(search ? pokemons.filter(p => p.name.includes(search.toLowerCase()) || p.id.toString() === search) : pokemons)].sort((a,b) => (a[sortKey] < b[sortKey] ? -1 : 1));
+  const pokemons = data?.pages.flatMap((page: { results: any[] }) => page.results.map(r => ({ name: r.name, id: getPokemonId(r.url) }))) ?? [];
+  const { data: searchedPokemon } = useSearchPokemon(search);
+  const filteredPokemons = search && searchedPokemon
+  ? [searchedPokemon]
+  : [...pokemons].sort((a, b) => (a[sortKey] < b[sortKey] ? -1 : 1));
+
 
   return (
     <RootView>
